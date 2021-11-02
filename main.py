@@ -1,16 +1,23 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from requests import get, post, Session
+import tabula
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def extract_table_from_pdf():
+    while True:
+        try:
+            f = open("table.pdf", 'wb')
+            f.write(get("https://www.w3.org/WAI/WCAG21/working-examples/pdf-table/table.pdf", ).content)
+            f.close()
+            csv_data = tabula.read_pdf("table.pdf", format='csv', pages='all', lattice=True, silent=True)
+
+            print(len(csv_data))
+
+            print(csv_data)
+
+            break
+        except Exception as e:
+            print(e)
+            raise
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+extract_table_from_pdf()
